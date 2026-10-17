@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTM BIKEVILLE | 3D Interactive Motorcycle Showroom</title>
+  <meta name="description" content="Experience the next-generation KTM 3D bike showroom. Explore the KTM 1290 Super Adventure, 1390 Super Duke R, and 350 EXC-F with interactive 3D exploded views, real-time configurator, and doorstep delivery.">
+  <meta name="keywords" content="KTM, 3D motorcycle, KTM Bikeville, 1390 Super Duke R, 1290 Super Adventure S, bike configurator, 3D showroom">
+
+  <!-- OpenGraph Meta -->
+  <meta property="og:title" content="KTM BIKEVILLE | 3D Interactive Motorcycle Showroom">
+  <meta property="og:description" content="Explore KTM motorcycles in interactive 3D, customize parts, and view exploded race-engineering anatomy.">
+  <meta property="og:image" content="assets/ktm_showroom_exterior.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syncopate:wght@400;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    if (view) {
+      document.documentElement.classList.add(`view-${view}`);
+      if (view === 'configurator') {
+        window.addEventListener('DOMContentLoaded', () => {
+          setTimeout(() => {
+            const m = document.getElementById('configurator-modal');
+            if (m) m.classList.add('open');
+          }, 300);
+        });
+      }
+      if (view === 'cad') {
+        window.addEventListener('DOMContentLoaded', () => {
+          setTimeout(() => {
+            if (window.KTM3D) {
+              window.KTM3D.setMode('cad');
+              window.KTM3D.setExplode(0.8);
+            }
+          }, 400);
+        });
+      }
+    }
+    if (params.get('scroll')) {
+      document.documentElement.classList.add('no-preloader');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ========================================================================
+       PRELOADER INTRO (Frame 1 of Reel)
+       ======================================================================== -->
+  <div id="preloader">
+    <div class="preloader-glow-circle"></div>
+    <div class="ktm-logo-neon">
+      K<span>T</span>M
+    </div>
+    <div class="preloader-tagline">BIKEVILLE &bull; 3D SHOWROOM EXPERIENCE</div>
+    <div class="preloader-bar-wrap">
+      <div class="preloader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TOP NAVIGATION BAR
+       ======================================================================== -->
+  <header class="navbar" id="main-navbar">
+    <a href="#hero-exterior" class="brand-wrap">
+      <span class="brand-badge">KTM</span>
+      <span class="brand-text">BIKEVILLE</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#hero-exterior" class="nav-link active">Showroom</a></li>
+        <li>
+          <a href="#stage-3d" class="nav-link">
+            3D Stage
+          </a>
+        </li>
+        <li><a href="#section-ktm-slider" class="nav-link">Bikes Slider</a></li>
+        <li><a href="#section-exploded" class="nav-link">3D Anatomy</a></li>
+        <li><a href="#section-catalog" class="nav-link">Catalog</a></li>
+        <li><a href="#section-how-it-works" class="nav-link">Delivery</a></li>
+        <li><a href="#footer-section" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <!-- Engine Sound FX Toggle -->
+      <button class="sound-toggle-btn" id="sound-toggle-btn" title="Toggle KTM V-Twin Engine Audio">
+        <div class="eq-bars">
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+          <div class="eq-bar"></div>
+        </div>
+        <span class="sound-label">SOUND FX</span>
+      </button>
+
+      <!-- Search Icon -->
+      <button class="icon-btn" onclick="document.getElementById('section-browse-type').scrollIntoView({behavior:'smooth'})" title="Search Motorcycles">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+
+      <!-- Cart Button with Counter -->
+      <button class="icon-btn" id="cart-open-btn" title="Shopping Cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="badge-count" id="cart-badge-count">0</span>
+      </button>
+
+      <!-- Book Test Ride CTA -->
+      <button class="nav-cta-btn trigger-test-ride" data-bike="1290">BOOK TEST RIDE</button>
+    </div>
+  </header>
+
+  <!-- Floating Vertical Slide Pagination Navigator (Matching Awwwards Slide Experience) -->
+  <aside class="slide-nav-dots" id="slide-nav-dots">
+    <a href="#hero-exterior" class="slide-dot active" title="Showroom Exterior"><span class="dot-inner"></span><span class="dot-label">Showroom</span></a>
+    <a href="#section-interior" class="slide-dot" title="Interior Walkthrough"><span class="dot-inner"></span><span class="dot-label">Interior</span></a>
+    <a href="#stage-3d" class="slide-dot" title="3D Bike Stage"><span class="dot-inner"></span><span class="dot-label">3D Stage</span></a>
+    <a href="#section-ktm-slider" class="slide-dot" title="KTM Bikes Slider"><span class="dot-inner"></span><span class="dot-label">Bikes Slider</span></a>
+    <a href="#section-exploded" class="slide-dot" title="3D Exploded Anatomy"><span class="dot-inner"></span><span class="dot-label">3D Anatomy</span></a>
+    <a href="#section-catalog" class="slide-dot" title="Popular Catalog"><span class="dot-inner"></span><span class="dot-label">Catalog</span></a>
+    <a href="#section-how-it-works" class="slide-dot" title="Delivery"><span class="dot-inner"></span><span class="dot-label">Delivery</span></a>
+  </aside>
+
+  <main>
+    <!-- ========================================================================
+         SECTION 1: HERO EXTERIOR SHOWROOM (Reel Frame 2-4)
+         ======================================================================== -->
+    <section class="section-exterior" id="hero-exterior">
+      <div class="exterior-overlay-glow"></div>
+
+      <div class="exterior-content-grid">
+        <div class="exterior-text-block">
+          <h1 class="exterior-title">Engineered in Austria</h1>
+          <p class="exterior-desc">
+            Every KTM begins with obsessive engineering &mdash; race-proven parts, built to outlast the road and dominate every trail.
+          </p>
+          <div class="interior-actions-row">
+            <a href="#stage-3d" class="btn-primary-orange">
+              ENTER 3D SHOWROOM
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <button class="btn-secondary-glass trigger-configurator" data-bike="1290">
+              CUSTOMIZE BIKE
+            </button>
+          </div>
+        </div>
+
+        <!-- Floating Glass Stat Cards (Matching Reel Frame 3) -->
+        <div class="exterior-badges-wrap">
+          <div class="glass-badge">
+            <div class="glass-badge-icon">🏆</div>
+            <div class="glass-badge-info">
+              <h4>25+ Years</h4>
+              <p>Dakar &amp; MotoGP Racing</p>
+            </div>
+          </div>
+
+          <div class="glass-badge">
+            <div class="glass-badge-icon">🏍️</div>
+            <div class="glass-badge-info">
+              <h4>500+ Bikes</h4>
+              <p>Delivered This Season</p>
+            </div>
+          </div>
+
+          <div class="glass-badge">
+            <div class="glass-badge-icon">⭐</div>
+            <div class="glass-badge-info">
+              <h4>4.9 / 5.0</h4>
+              <p>Rider Satisfaction Score</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Animated Scroll Prompt -->
+      <a href="#section-interior" class="scroll-indicator">
+        <div class="scroll-mouse">
+          <div class="scroll-dot"></div>
+        </div>
+        <span>Scroll to Explore</span>
+      </a>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 2: SHOWROOM INTERIOR WALKTHROUGH (Reel Frame 5)
+         ======================================================================== -->
+    <section class="section-interior" id="section-interior">
+      <div class="interior-corner-tag">Built for Every Terrain</div>
+
+      <div class="interior-content-wrap">
+        <h2 class="interior-title">
+          Join the <span>Orange Army</span>
+        </h2>
+        <p class="interior-desc">
+          Millions of riders worldwide trust KTM to deliver on the promise: Ready to Race. Step into our digital showroom and explore the future of two-wheeled performance.
+        </p>
+
+        <div class="interior-actions-row">
+          <a href="#stage-3d" class="btn-primary-orange">
+            EXPLORE 3D MODELS
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#section-exploded" class="btn-secondary-glass">
+            VIEW 3D ANATOMY
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 3: 3D BIKE SHOWCASE & STAGE (Reel Frame 7-10)
+         ======================================================================== -->
+    <section class="section-3d-stage" id="stage-3d">
+      <!-- Top Stage Controls Row: Mode Switcher + Bike Selector Pills -->
+      <div class="stage-header-row">
+        <div class="stage-mode-switcher">
+          <button class="mode-btn active" data-mode="studio">🌟 STUDIO 3D</button>
+          <button class="mode-btn" data-mode="cad">⚙️ 3D CAD DISASSEMBLY</button>
+        </div>
+
+        <div class="bike-selector-pills">
+          <button class="pill-tab active" data-bike="1290">1290 Super Adv S</button>
+          <button class="pill-tab" data-bike="1390">1390 Super Duke R</button>
+          <button class="pill-tab" data-bike="350">350 EXC-F</button>
+          <button class="pill-tab" data-bike="390">390 Enduro R</button>
+        </div>
+      </div>
+
+      <!-- Main Stage Layout -->
+      <div class="stage-main-grid">
+        <!-- Left Hero Glass Panel (Reel Frame 7) -->
+        <div class="stage-left-card">
+          <span class="ready-tag">READY TO</span>
+          <div class="word-ride">RIDE</div>
+          <span class="ready-tag">READY TO</span>
+          <div class="word-explore">EXPLORE</div>
+
+          <p id="stage-bike-desc">
+            Experience the thrill of performance and precision with the KTM 1290 Super Adv S. Built for adrenaline. Born to dominate.
+          </p>
+
+          <div class="stage-btn-group">
+            <button class="btn-primary-orange" id="btn-configure-stage">
+              Configure Bike &rarr;
+            </button>
+            <button class="btn-secondary-glass" id="btn-start-engine">
+              🔊 Rev Engine Sound
+            </button>
+          </div>
+
+          <!-- Dynamic Horsepower Metric Pill -->
+          <div class="power-metric-card">
+            <div class="power-icon">⚡</div>
+            <div class="power-info">
+              <h4 id="stage-bike-hp">160 HP</h4>
+              <p id="stage-bike-hp-desc">Peak Power</p>
+            </div>
+          </div>
+
+          <!-- Interactive KTM Racing Digital Tachometer Widget -->
+          <div class="tachometer-widget">
+            <div class="tacho-top-row">
+              <span class="tacho-gear-badge" id="tacho-gear-text">GEAR 1</span>
+              <div class="tacho-rpm-readout"><strong id="rpm-digits">1,850</strong> <span>RPM</span></div>
+              <div class="tacho-shift-light" id="tacho-shift-light" title="Redline Shift Light"></div>
+            </div>
+            <div class="tacho-meter-track">
+              <div class="tacho-meter-fill" id="tacho-meter-fill" style="width: 18%;"></div>
+            </div>
+            <div class="tacho-controls-row">
+              <button class="btn-throttle-rev" id="btn-throttle-rev">
+                🔥 HOLD TO REV THROTTLE
+              </button>
+            </div>
+            <div class="spacebar-hint">
+              <span>⌨️ Hold <strong>[SPACEBAR]</strong> to Rev</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center 3D Interactive Stage -->
+        <div class="stage-center-viewport">
+          <div class="stage-ground-glow"></div>
+          <div id="three-canvas-container"></div>
+
+          <!-- Camera Angles & Spin Controls -->
+          <div class="stage-camera-controls">
+            <button class="cam-btn active" data-cam="front">Front 3/4</button>
+            <button class="cam-btn" data-cam="profile">Profile</button>
+            <button class="cam-btn" data-cam="cockpit">Cockpit</button>
+            <button class="cam-btn" data-cam="rear">Rear</button>
+            <button class="cam-btn" data-cam="top">Top</button>
+            <button class="cam-btn active" id="cam-btn-spin">⟳ Auto-Spin</button>
+          </div>
+        </div>
+
+        <!-- Right Feature Cards (Reel Frame 7) -->
+        <div class="stage-right-features">
+          <div class="feature-card" onclick="document.getElementById('section-exploded').scrollIntoView({behavior:'smooth'})">
+            <div class="feature-icon-badge">🏁</div>
+            <h4>Racing Performance <span class="arrow">&rarr;</span></h4>
+            <p>Engineered for relentless speed and endurance, built for champions.</p>
+          </div>
+
+          <div class="feature-card trigger-configurator" data-bike="1290">
+            <div class="feature-icon-badge">🎒</div>
+            <h4>Premium Accessories <span class="arrow">&rarr;</span></h4>
+            <p>Gear up with original KTM PowerParts and touring equipment.</p>
+          </div>
+
+          <div class="feature-card" onclick="document.getElementById('section-catalog').scrollIntoView({behavior:'smooth'})">
+            <div class="feature-icon-badge">🎯</div>
+            <h4>Built to Dominate <span class="arrow">&rarr;</span></h4>
+            <p>Unmatched electronic control, cornering traction, and unstoppable power.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Horizontal Spec Pills Bar (Reel Frame 7) -->
+      <div class="stage-spec-bar">
+        <div class="spec-item">
+          <div class="spec-icon">⚙️</div>
+          <div class="spec-details">
+            <h5>Powerful Engine</h5>
+            <p id="spec-engine-val">1301cc, V-Twin, LC8</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-icon">🏎️</div>
+          <div class="spec-details">
+            <h5>WP Apex Suspension</h5>
+            <p id="spec-suspension-val">Semi-Active Damping</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-icon">🛑</div>
+          <div class="spec-details">
+            <h5>Brembo / ByBre Brakes</h5>
+            <p id="spec-brakes-val">Brembo Stylema Dual 320mm</p>
+          </div>
+        </div>
+
+        <div class="spec-item">
+          <div class="spec-icon">📐</div>
+          <div class="spec-details">
+            <h5>Trellis Frame</h5>
+            <p id="spec-frame-val">Chromoly Tubular Steel</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 4: KTM BIKES HORIZONTAL SLIDER (Reel Frame 10-12)
+         ======================================================================== -->
+    <section class="section-ktm-slider" id="section-ktm-slider">
+      <div class="ktm-slider-container">
+        <div class="ktm-slider-top-row">
+          <div class="ktm-slider-heading">
+            <span class="slider-badge">MODEL LINEUP</span>
+            <h2 class="ktm-slider-title"><span>KTM</span> Bikes</h2>
+          </div>
+
+          <!-- Controls: Prev / Next buttons -->
+          <div class="slider-nav-controls">
+            <button class="slider-arrow-btn" id="slider-btn-prev" title="Previous Bike">&larr;</button>
+            <button class="slider-arrow-btn" id="slider-btn-next" title="Next Bike">&rarr;</button>
+          </div>
+        </div>
+
+        <div class="ktm-slider-main-layout">
+          <!-- Horizontal Track of 4 Bikes -->
+          <div class="ktm-slider-viewport" id="slider-viewport">
+            <div class="ktm-slider-track" id="slider-track">
+              <!-- Bike 1: 1290 -->
+              <div class="slider-bike-item" data-bike="1290">
+                <div class="slider-bike-glow"></div>
+                <img src="assets/card_1290_trans.png" alt="KTM 1290 Super Adv S" class="slider-bike-img">
+                <div class="slider-bike-meta">
+                  <h4>1290 Super Adventure S</h4>
+                  <span>1301cc &bull; 160 HP</span>
+                </div>
+              </div>
+
+              <!-- Bike 2: 1390 -->
+              <div class="slider-bike-item" data-bike="1390">
+                <div class="slider-bike-glow"></div>
+                <img src="assets/card_1390_trans.png" alt="KTM 1390 Super Duke R" class="slider-bike-img">
+                <div class="slider-bike-meta">
+                  <h4>1390 Super Duke R</h4>
+                  <span>1350cc &bull; 190 HP</span>
+                </div>
+              </div>
+
+              <!-- Bike 3: 350 -->
+              <div class="slider-bike-item" data-bike="350">
+                <div class="slider-bike-glow"></div>
+                <img src="assets/card_350_trans.png" alt="KTM 350 EXC-F" class="slider-bike-img">
+                <div class="slider-bike-meta">
+                  <h4>350 EXC-F Enduro</h4>
+                  <span>350cc &bull; 51 HP</span>
+                </div>
+              </div>
+
+              <!-- Bike 4: 390 (Active in Reel Frame 11) -->
+              <div class="slider-bike-item active" data-bike="390">
+                <div class="slider-bike-glow"></div>
+                <img src="assets/card_390_trans.png" alt="KTM 390 Enduro R" class="slider-bike-img">
+                <div class="slider-bike-meta">
+                  <h4>390 Enduro R</h4>
+                  <span>399cc &bull; 44 HP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Floating Card (Matching Frame 11 from Reel) -->
+          <div class="slider-active-card" id="slider-active-card">
+            <div class="active-card-pill">KTM</div>
+            <h3 class="active-card-title" id="slider-card-title">390 Enduro R</h3>
+            <div class="active-card-specs-row">
+              <div class="active-spec-chip"><span class="chip-icon">⚡</span> <span id="slider-card-hp">44 HP</span></div>
+              <div class="active-spec-chip"><span class="chip-icon">⚙️</span> <span id="slider-card-torque">39 Nm</span></div>
+              <div class="active-spec-chip"><span class="chip-icon">⚖️</span> <span id="slider-card-weight">159 kg</span></div>
+            </div>
+
+            <div class="active-card-visual">
+              <img src="assets/card_390_trans.png" alt="KTM Active Preview" id="slider-card-preview-img">
+            </div>
+
+            <div class="active-card-footer">
+              <div class="active-price-block">
+                <span>Price</span>
+                <strong id="slider-card-price">₹4,50,000</strong>
+              </div>
+              <button class="active-card-action-btn trigger-configurator" data-bike="390" id="slider-card-btn">
+                <span>Configure</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 5: 3D EXPLODED ANATOMY VIEW (Reel Frame 14-16)
+         ======================================================================== -->
+    <section class="section-exploded" id="section-exploded">
+      <div class="exploded-stage-container">
+        <div class="exploded-header">
+          <div class="tag-dirt">Built for the Dirt &amp; Track</div>
+          <h2 class="exploded-title">Engineered to Push Limits</h2>
+          <p class="exploded-desc">
+            Precision suspension and race-bred power, ready for any terrain. Inspect the disassembled anatomy of KTM's uncompromising race machinery.
+          </p>
+        </div>
+
+        <!-- Exploded View Display with Interactive Hotspot Pins (Reel Frame 16) -->
+        <div class="exploded-display-area">
+          <div class="exploded-image-stage">
+            <img src="assets/ktm_exploded_view.jpg" alt="KTM Exploded 3D Anatomy View" class="exploded-base-img" id="exploded-img-view">
+
+            <!-- Interactive HUD Annotation Callouts -->
+            <div class="hud-callout pin-frame" title="Chromoly Tubular Trellis Frame">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ TRELLIS FRAME ]</div>
+            </div>
+
+            <div class="hud-callout pin-engine" title="High-Revving LC8 V-Twin Engine">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ DOHC ENGINE ]</div>
+            </div>
+
+            <div class="hud-callout pin-forks" title="WP Apex Inverted Suspension Forks">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ WP APEX FORKS ]</div>
+            </div>
+
+            <div class="hud-callout pin-tank" title="Ergonomic Lightweight Fuel Tank">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ KTM FUEL TANK ]</div>
+            </div>
+
+            <div class="hud-callout pin-exhaust" title="Titanium Race Exhaust System">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ AKRAPOVIČ EXHAUST ]</div>
+            </div>
+
+            <div class="hud-callout pin-wheels" title="Forged Alloy Wheels & Disc Brakes">
+              <div class="hud-pin"></div>
+              <div class="hud-label">[ WHEELS &amp; BRAKES ]</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explode / Assemble Interactive Controls -->
+        <div class="exploded-controls-bar">
+          <span class="control-label">Explode Level:</span>
+          <input type="range" min="0" max="1" step="0.01" value="0.75" class="explode-slider" id="explode-slider">
+          <button class="btn-toggle-explode" id="btn-toggle-explode">ASSEMBLE BIKE</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 5: BROWSE BY TYPE (Reel Frame 18)
+         ======================================================================== -->
+    <section class="section-browse-type" id="section-browse-type">
+      <div class="browse-container">
+        <div class="browse-heading-wrap">
+          <h2 class="browse-title">Browse by Type</h2>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="type-tabs-row">
+          <button class="type-tab-item active" data-filter="all">
+            <div class="type-tab-icon">⚡</div>
+            <span>All Bikes</span>
+          </button>
+          <button class="type-tab-item" data-filter="adventure">
+            <div class="type-tab-icon">🏔️</div>
+            <span>Adventure</span>
+          </button>
+          <button class="type-tab-item" data-filter="naked">
+            <div class="type-tab-icon">🔥</div>
+            <span>Naked / Duke</span>
+          </button>
+          <button class="type-tab-item" data-filter="enduro">
+            <div class="type-tab-icon">🌲</div>
+            <span>Enduro / Dirt</span>
+          </button>
+          <button class="type-tab-item" data-filter="supersport">
+            <div class="type-tab-icon">🏁</div>
+            <span>Supersport</span>
+          </button>
+        </div>
+
+        <!-- Banner: Looking for a bike? (Frame 18) -->
+        <div class="looking-bike-banner">
+          <div class="looking-bike-left">
+            <h3>Are You Looking For a Bike?</h3>
+            <p>Explore our full KTM lineup and find the exact machine that matches your riding style.</p>
+          </div>
+          <button class="btn-white-pill trigger-test-ride" data-bike="1290">
+            Find Your Match &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 6: POPULAR BIKES CATALOG (Reel Frame 20-21)
+         ======================================================================== -->
+    <section class="section-catalog" id="section-catalog">
+      <!-- Curved Orange Wave Header -->
+      <div class="orange-wave-header">
+        <div class="handpicked-tag">HANDPICKED FOR YOU</div>
+        <h2 class="catalog-title">Popular Bikes</h2>
+        <div class="wave-curved-bottom">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 C300,90 900,90 1200,0 L1200,120 L0,120 Z" fill="#FFFFFF"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Trust Badges Bar (Frame 20) -->
+      <div class="catalog-trust-bar">
+        <div class="trust-badge-card">
+          <div class="dot"></div>
+          <span>Genuine KTM Parts Only</span>
+        </div>
+        <div class="trust-badge-card">
+          <div class="dot"></div>
+          <span>Pan-India Doorstep Delivery</span>
+        </div>
+        <div class="trust-badge-card">
+          <div class="dot"></div>
+          <span>Certified Factory Technicians</span>
+        </div>
+        <div class="trust-badge-card">
+          <div class="dot"></div>
+          <span>Easy EMI Options from ₹4,999</span>
+        </div>
+      </div>
+
+      <!-- 4 Bike Cards Grid (Frame 20-21) -->
+      <div class="catalog-cards-grid">
+        <!-- 1. 1290 Super Adventure S -->
+        <div class="bike-catalog-card" data-category="Adventure">
+          <div class="card-img-wrap">
+            <span class="card-category-badge">Adventure</span>
+            <img src="assets/card_1290.jpg" alt="KTM 1290 Super Adv S" class="card-bike-img">
+          </div>
+          <h3 class="card-bike-name">1290 Super Adv S</h3>
+          <div class="card-bike-specs">
+            <span>1301 cc</span> &bull; <span>160 HP</span> &bull; <span>V-Twin</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-price-wrap">
+              <span class="card-price-label">Ex-Showroom</span>
+              <span class="card-price-val">₹21,50,000</span>
+            </div>
+            <div class="card-action-btns">
+              <button class="btn-card-configure trigger-configurator" data-bike="1290">Configure</button>
+              <button class="btn-card-add" data-bike="1290" title="Quick Add to Garage">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 1390 Super Duke R -->
+        <div class="bike-catalog-card" data-category="Naked">
+          <div class="card-img-wrap">
+            <span class="card-category-badge">Hyper-Naked</span>
+            <img src="assets/card_1390.jpg" alt="KTM 1390 Super Duke R" class="card-bike-img">
+          </div>
+          <h3 class="card-bike-name">1390 Super Duke R</h3>
+          <div class="card-bike-specs">
+            <span>1350 cc</span> &bull; <span>190 HP</span> &bull; <span>Cam-Shift</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-price-wrap">
+              <span class="card-price-label">Ex-Showroom</span>
+              <span class="card-price-val">₹24,00,000</span>
+            </div>
+            <div class="card-action-btns">
+              <button class="btn-card-configure trigger-configurator" data-bike="1390">Configure</button>
+              <button class="btn-card-add" data-bike="1390" title="Quick Add to Garage">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 350 EXC-F -->
+        <div class="bike-catalog-card" data-category="Enduro">
+          <div class="card-img-wrap">
+            <span class="card-category-badge">Enduro Racing</span>
+            <img src="assets/card_350.jpg" alt="KTM 350 EXC-F" class="card-bike-img">
+          </div>
+          <h3 class="card-bike-name">350 EXC-F</h3>
+          <div class="card-bike-specs">
+            <span>349 cc</span> &bull; <span>51 HP</span> &bull; <span>DOHC 4-Stroke</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-price-wrap">
+              <span class="card-price-label">Ex-Showroom</span>
+              <span class="card-price-val">₹12,50,000</span>
+            </div>
+            <div class="card-action-btns">
+              <button class="btn-card-configure trigger-configurator" data-bike="350">Configure</button>
+              <button class="btn-card-add" data-bike="350" title="Quick Add to Garage">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 390 Enduro R -->
+        <div class="bike-catalog-card" data-category="Enduro">
+          <div class="card-img-wrap">
+            <span class="card-category-badge">Dual-Sport</span>
+            <img src="assets/card_390.jpg" alt="KTM 390 Enduro R" class="card-bike-img">
+          </div>
+          <h3 class="card-bike-name">390 Enduro R</h3>
+          <div class="card-bike-specs">
+            <span>398 cc</span> &bull; <span>44 HP</span> &bull; <span>USD Long-Travel</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-price-wrap">
+              <span class="card-price-label">Ex-Showroom</span>
+              <span class="card-price-val">₹4,50,000</span>
+            </div>
+            <div class="card-action-btns">
+              <button class="btn-card-configure trigger-configurator" data-bike="390">Configure</button>
+              <button class="btn-card-add" data-bike="390" title="Quick Add to Garage">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 7: HOW IT WORKS (Reel Frame 21-22)
+         ======================================================================== -->
+    <section class="section-how-it-works" id="section-how-it-works">
+      <div class="how-container">
+        <div class="how-heading-wrap">
+          <div class="how-subtitle">SIMPLE START TO FINISH</div>
+          <h2 class="how-title">How It Works</h2>
+        </div>
+
+        <div class="how-steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <div class="step-icon-wrap">🔍</div>
+            <h4>Choose Your Bike</h4>
+            <p>Browse the full KTM portfolio by discipline, engine displacement, or budget with full 3D interactive inspection.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <div class="step-icon-wrap">⚙️</div>
+            <h4>Configure &amp; Customize</h4>
+            <p>Tailor your machine with genuine KTM PowerParts, custom livery colors, Akrapovič titanium exhausts, and wheels.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <div class="step-icon-wrap">🚚</div>
+            <h4>Doorstep Delivery</h4>
+            <p>White-glove climate-controlled covered transport straight to your garage anywhere across India with registration.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-num">04</div>
+            <div class="step-icon-wrap">🛡️</div>
+            <h4>After-Sales Support</h4>
+            <p>Comprehensive 5-year factory warranty, 3 complimentary services, and 24/7 national roadside assistance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER (Reel Frame 22)
+       ======================================================================== -->
+  <footer class="footer-orange-wave" id="footer-section">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h2>KTM Bikeville</h2>
+        <p>Ride the thrill. Own the road. Built for those who live Ready to Race.</p>
+        <div class="social-links-row">
+          <a href="#" class="social-circle-btn" title="Instagram">📸</a>
+          <a href="#" class="social-circle-btn" title="YouTube">▶️</a>
+          <a href="#" class="social-circle-btn" title="Facebook">👍</a>
+          <a href="#" class="social-circle-btn" title="X / Twitter">🐦</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#hero-exterior">Showroom</a></li>
+          <li><a href="#stage-3d">3D Bike Stage</a></li>
+          <li><a href="#section-exploded">Tech Anatomy</a></li>
+          <li><a href="#section-catalog">Motorcycle Catalog</a></li>
+          <li><a href="#section-how-it-works">Doorstep Delivery</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Address</h4>
+        <address>
+          <strong>KTM Bikeville Showroom</strong><br>
+          104 MG Road, Central District,<br>
+          Bengaluru, KA 560001<br><br>
+          <a href="mailto:hello@ktmbikeville.com">hello@ktmbikeville.com</a><br>
+          <a href="tel:+918049283000">+91 80 4928 3000</a>
+        </address>
+      </div>
+
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <p style="opacity: 0.9; line-height: 1.8;">
+          <strong>Monday &ndash; Friday:</strong><br>9:00 AM &ndash; 8:00 PM<br><br>
+          <strong>Saturday &ndash; Sunday:</strong><br>10:00 AM &ndash; 6:00 PM
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom-line">
+      &copy; 2026 KTM Bikeville Official Dealership. All Rights Reserved. Inspired by @genz.webdeveloper
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       PERSISTENT BOTTOM TICKER MARQUEE (Continuous Throughout the Reel)
+       ======================================================================== -->
+  <div class="persistent-ticker-bar">
+    <div class="ticker-track">
+      <div class="ticker-item">
+        EASY EMI FROM ₹4,999/MONTH <span class="diamond">✦</span>
+        100% GENUINE KTM PARTS <span class="diamond">✦</span>
+        NEW: 1390 SUPER DUKE R NOW AVAILABLE <span class="diamond">✦</span>
+        FREE 3 SERVICES ON EVERY NEW BIKE <span class="diamond">✦</span>
+        READY TO RACE &mdash; READY TO RIDE <span class="diamond">✦</span>
+        FREE DELIVERY ON ORDERS OVER ₹50,000 <span class="diamond">✦</span>
+        0% DOWN PAYMENT SCHEMES AVAILABLE <span class="diamond">✦</span>
+      </div>
+      <div class="ticker-item">
+        EASY EMI FROM ₹4,999/MONTH <span class="diamond">✦</span>
+        100% GENUINE KTM PARTS <span class="diamond">✦</span>
+        NEW: 1390 SUPER DUKE R NOW AVAILABLE <span class="diamond">✦</span>
+        FREE 3 SERVICES ON EVERY NEW BIKE <span class="diamond">✦</span>
+        READY TO RACE &mdash; READY TO RIDE <span class="diamond">✦</span>
+        FREE DELIVERY ON ORDERS OVER ₹50,000 <span class="diamond">✦</span>
+        0% DOWN PAYMENT SCHEMES AVAILABLE <span class="diamond">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CONFIGURATOR MODAL (Exact Replica of Reel Frame 13)
+       ======================================================================== -->
+  <div class="configurator-modal-backdrop" id="configurator-modal">
+    <div class="configurator-window">
+      <!-- Left 3D Preview (Blue/Dark Gradient) -->
+      <div class="config-left-preview">
+        <div class="config-preview-top">
+          <h3 class="config-model-title" id="config-modal-title">KTM 390 ENDURO R</h3>
+          <div class="config-tabs-row">
+            <button class="config-tab-btn active">Overview</button>
+            <button class="config-tab-btn">Specs</button>
+          </div>
+        </div>
+
+        <div class="config-3d-stage">
+          <img src="assets/card_390_trans.png" alt="Configured Motorcycle" class="config-bike-preview-img" id="config-preview-bike-img">
+        </div>
+
+        <div class="config-preview-bottom">
+          <div class="config-price-block">
+            <span>Price</span>
+            <h3 id="config-calc-price">₹4,50,000</h3>
+          </div>
+          <button class="btn-add-cart-orange" id="btn-config-add-cart">+ Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Right White Configurator Panel -->
+      <div class="config-right-options">
+        <button class="config-back-btn" id="config-back-btn">&larr; Back to Showroom</button>
+        <h2 class="config-options-title">Configure the Bike</h2>
+
+        <!-- Step / Category Icons Row -->
+        <div class="config-cat-icons-row">
+          <button class="config-cat-btn active" data-cat="wheels" title="Wheels & Rims">🔘</button>
+          <button class="config-cat-btn" data-cat="livery" title="Body & Livery">🎨</button>
+          <button class="config-cat-btn" data-cat="exhaust" title="Exhaust System">💨</button>
+          <button class="config-cat-btn" data-cat="seat" title="Seat & Ergonomics">💺</button>
+        </div>
+
+        <!-- Section: Wheels (Default Visible) -->
+        <div class="config-option-section" id="config-section-wheels">
+          <h4 class="config-group-label">Wheels &amp; Rims</h4>
+          <div class="swatches-grid">
+            <div class="swatch-item active" data-name="Factory Spoke Orange" data-price="0" data-hex="ff6600">
+              <div class="swatch-circle" style="background: #ff6600;"></div>
+              <span>Orange</span>
+            </div>
+            <div class="swatch-item" data-name="Stealth Dark Alloy" data-price="15000" data-hex="1c2026">
+              <div class="swatch-circle" style="background: #1c2026;"></div>
+              <span>Dark Alloy</span>
+            </div>
+            <div class="swatch-item" data-name="Racing Orange Machined" data-price="22000" data-hex="ff4500">
+              <div class="swatch-circle" style="background: #ff4500;"></div>
+              <span>Machined</span>
+            </div>
+            <div class="swatch-item" data-name="Silver Supermoto Spoke" data-price="18000" data-hex="dcdfe5">
+              <div class="swatch-circle" style="background: #dcdfe5;"></div>
+              <span>Silver</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Body Livery -->
+        <div class="config-option-section" id="config-section-livery" style="display: none;">
+          <h4 class="config-group-label">Body Livery &amp; Paint</h4>
+          <div class="accessory-options-list">
+            <div class="acc-option-item selected" data-cat="livery" data-name="Factory KTM Orange" data-price="0" data-hex="ff6600">
+              <div class="acc-info">
+                <h5>Factory Racing Orange</h5>
+                <p>Signature Austrian gloss finish with factory graphics</p>
+              </div>
+              <span class="acc-price">Included</span>
+            </div>
+            <div class="acc-option-item" data-cat="livery" data-name="Stealth Blackout Edition" data-price="12000" data-hex="111418">
+              <div class="acc-info">
+                <h5>Stealth Blackout Matte</h5>
+                <p>All-black sinister aesthetic with ghost accents</p>
+              </div>
+              <span class="acc-price">+₹12,000</span>
+            </div>
+            <div class="acc-option-item" data-cat="livery" data-name="White Dakar Heritage" data-price="16000" data-hex="f0f2f5">
+              <div class="acc-info">
+                <h5>White Dakar Heritage</h5>
+                <p>Rally-raid inspired tri-color livery with protective clearcoat</p>
+              </div>
+              <span class="acc-price">+₹16,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Exhaust System -->
+        <div class="config-option-section" id="config-section-exhaust" style="display: none;">
+          <h4 class="config-group-label">Performance Exhaust</h4>
+          <div class="accessory-options-list">
+            <div class="acc-option-item selected" data-cat="exhaust" data-name="OEM Stainless Race" data-price="0">
+              <div class="acc-info">
+                <h5>Standard Stainless Muffler</h5>
+                <p>Euro-5 certified lightweight factory silencer</p>
+              </div>
+              <span class="acc-price">Included</span>
+            </div>
+            <div class="acc-option-item" data-cat="exhaust" data-name="Akrapovič Titanium Slip-On" data-price="65000">
+              <div class="acc-info">
+                <h5>Akrapovič Titanium Slip-On</h5>
+                <p>Weight saving of -2.4 kg and throaty GP acoustic note</p>
+              </div>
+              <span class="acc-price">+₹65,000</span>
+            </div>
+            <div class="acc-option-item" data-cat="exhaust" data-name="Remus Carbon Racing" data-price="48000">
+              <div class="acc-info">
+                <h5>Remus Carbon Racing Silencer</h5>
+                <p>Carbon fiber heat shield with tuned low-end torque</p>
+              </div>
+              <span class="acc-price">+₹48,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Seat & Ergonomics -->
+        <div class="config-option-section" id="config-section-seat" style="display: none;">
+          <h4 class="config-group-label">Ergonomics &amp; Seat</h4>
+          <div class="accessory-options-list">
+            <div class="acc-option-item selected" data-cat="seat" data-name="Standard Ergonomic Seat" data-price="0">
+              <div class="acc-info">
+                <h5>Standard Ergonomic Seat</h5>
+                <p>Dual-compound foam with textured grip cover</p>
+              </div>
+              <span class="acc-price">Included</span>
+            </div>
+            <div class="acc-option-item" data-cat="seat" data-name="Ergo Comfort Low Seat (-20mm)" data-price="8500">
+              <div class="acc-info">
+                <h5>Ergo Comfort Low Seat</h5>
+                <p>Integrated 3D structural gel core for supreme long rides</p>
+              </div>
+              <span class="acc-price">+₹8,500</span>
+            </div>
+            <div class="acc-option-item" data-cat="seat" data-name="Factory High Rally Seat (+15mm)" data-price="9200">
+              <div class="acc-info">
+                <h5>Factory Rally Step Seat</h5>
+                <p>Straight profile for rapid rider weight transitions</p>
+              </div>
+              <span class="acc-price">+₹9,200</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SHOPPING CART DRAWER
+       ======================================================================== -->
+  <div class="cart-drawer-backdrop" id="cart-drawer-backdrop">
+    <div class="cart-drawer">
+      <div class="cart-header">
+        <h3>YOUR SHOWROOM GARAGE</h3>
+        <button class="cart-close-btn" id="cart-close-btn">&times;</button>
+      </div>
+
+      <div class="cart-items-body" id="cart-items-container">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span>Total Booking Amount:</span>
+          <span id="cart-total-amount">₹0</span>
+        </div>
+        <button class="btn-primary-orange" id="btn-cart-checkout" style="width: 100%; justify-content: center;">
+          PROCEED TO RESERVE &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TEST RIDE BOOKING MODAL
+       ======================================================================== -->
+  <div class="configurator-modal-backdrop" id="test-ride-modal">
+    <div style="background: #12151B; border: 1px solid rgba(255,102,0,0.3); border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 540px; color: #fff; box-shadow: 0 20px 60px rgba(0,0,0,0.9); position: relative;">
+      <button style="position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;" id="test-ride-close-btn">&times;</button>
+      
+      <div style="font-family: var(--font-heading); font-size: 0.8rem; color: var(--ktm-orange); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">
+        READY TO RACE EXPERIENCE
+      </div>
+      <h3 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem;">Book a Showroom Test Ride</h3>
+
+      <form id="test-ride-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label style="font-size: 0.85rem; color: #9BA3AF; display: block; margin-bottom: 0.35rem;">Select Motorcycle Model</label>
+          <select id="test-ride-bike-select" style="width: 100%; background: #1A1E26; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; padding: 0.75rem; font-family: var(--font-body);">
+            <option value="1290">KTM 1290 Super Adventure S (₹21,50,000)</option>
+            <option value="1390">KTM 1390 Super Duke R (₹24,00,000)</option>
+            <option value="350">KTM 350 EXC-F (₹12,50,000)</option>
+            <option value="390">KTM 390 Enduro R (₹4,50,000)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; color: #9BA3AF; display: block; margin-bottom: 0.35rem;">Full Name</label>
+          <input type="text" required placeholder="John Rider" style="width: 100%; background: #1A1E26; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; padding: 0.75rem; font-family: var(--font-body);">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label style="font-size: 0.85rem; color: #9BA3AF; display: block; margin-bottom: 0.35rem;">Phone Number</label>
+            <input type="tel" required placeholder="+91 98765 43210" style="width: 100%; background: #1A1E26; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; padding: 0.75rem; font-family: var(--font-body);">
+          </div>
+          <div>
+            <label style="font-size: 0.85rem; color: #9BA3AF; display: block; margin-bottom: 0.35rem;">Preferred Date</label>
+            <input type="date" required style="width: 100%; background: #1A1E26; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; padding: 0.75rem; font-family: var(--font-body);">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; color: #9BA3AF; display: block; margin-bottom: 0.35rem;">Preferred Showroom</label>
+          <input type="text" readonly value="KTM Bikeville Showroom, MG Road, Bengaluru" style="width: 100%; background: #1A1E26; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #aaa; padding: 0.75rem; font-family: var(--font-body);">
+        </div>
+
+        <button type="submit" class="btn-primary-orange" style="margin-top: 1rem; width: 100%; justify-content: center;">
+          CONFIRM TEST RIDE RESERVATION
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       COMPONENT TECHNICAL INSPECTION MODAL (Reel Frame 16)
+       ======================================================================== -->
+  <div class="component-modal-backdrop" id="component-modal">
+    <div class="component-modal-card">
+      <button class="component-modal-close" id="btn-component-close">&times;</button>
+      <div class="component-badge">KTM RACING CAD BLUEPRINT</div>
+      <h3 id="comp-title">WP APEX PRO 48MM FORKS</h3>
+      <p id="comp-desc">Precision inverted cartridge suspension engineered for relentless race conditions.</p>
+      
+      <div class="comp-specs-grid">
+        <div class="comp-spec-box">
+          <span class="label">METALLURGY</span>
+          <strong id="comp-metal">Chrome-Silicon Steel</strong>
+        </div>
+        <div class="comp-spec-box">
+          <span class="label">WEIGHT</span>
+          <strong id="comp-weight">5.4 kg (-18%)</strong>
+        </div>
+        <div class="comp-spec-box">
+          <span class="label">RATING</span>
+          <strong id="comp-rating">Factory MotoGP Spec</strong>
+        </div>
+        <div class="comp-spec-box">
+          <span class="label">DAMPING</span>
+          <strong id="comp-damping">Semi-Active Electronic</strong>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+        <button class="btn-primary-orange" id="btn-inspect-in-3d" style="flex: 1; justify-content: center;">
+          INSPECT IN 3D STAGE &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TOAST NOTIFICATION
+       ======================================================================== -->
+  <div class="toast-notice" id="toast-notification">
+    <span class="check-icon">✓</span>
+    <span class="toast-text">Action Completed</span>
+  </div>
+
+  <!-- Local Offline Three.js Bundles -->
+  <script src="js/three.min.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/GLTFLoader.js"></script>
+
+  <!-- 3D Scene Controller & Main Logic -->
+  <script src="js/three-scene.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
